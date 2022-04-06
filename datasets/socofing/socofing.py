@@ -12,7 +12,7 @@ class SOCOfing(FPDataset):
         inputDim=(180, 180, 3), 
         **kargs
         ):
-        FPDataset.__init__(self, name=name, path=path, imgFormat='BMP', inputDim=inputDim, **kargs)       
+        FPDataset.__init__(self, name=name, path=path, inputDim=inputDim, **kargs)       
 
     def getFile(self, pathFile):
         # Load the raw data from the file as a string
@@ -23,7 +23,7 @@ class SOCOfing(FPDataset):
         img = tf.image.resize(img, self.inputDim[0:2])
         return tf.cast(img, dtype=tf.uint8, name=None)
     
-    
+    # calculates the actual sizes of splitted datasets by ratio, divide by 10 to force different subjects in each dataset
     def samplesByRatio(self, nbSamples, ratio):
         nbSubjects = nbSamples/10
         ratio = np.array(ratio)
@@ -34,25 +34,29 @@ class SOCOfing(FPDataset):
         splits*=10
         return splits
     
-
-    def createDatasets(self, splitsRatio=None, shuffle=False):
-        PATH = '{}{}/*.{}'
-        path = PATH.format(os.getcwd(), self.path[1:],self.imgFormat)
-        ds = tf.data.Dataset.list_files(path, shuffle=False)
+    def splitDatasetByRatio(self, ds, splitsRatio):
         nbSamples = len(ds)
-        if splitsRatio:
-            splitsAcc = self.samplesByRatio(nbSamples, splitsRatio)
-            tok = 0
-            datasets = []
-            for a in splitsAcc:
-                dsf = ds.take(tok+a).skip(tok)
-                tok+=a
-                if shuffle:
-                    dsf  = dsf.shuffle(buffer_size=len(dsf), seed=self.seed)
-                dsf = dsf.map(self.proccessPath, num_parallel_calls=tf.data.AUTOTUNE)
-                datasets.append(dsf)   
-        else:
-            if shuffle:
-                ds = ds.shuffle(buffer_size=nbSamples*2, seed=self.seed)
-            datasets = ds.map(self.proccessPath, num_parallel_calls=tf.data.AUTOTUNE)
-        return datasets
+        dsSizes = self.samplesByRatio(nbSamples, splitsRatio)
+        tok = 0
+        datasetsSplitted = []
+        for size in dsSizes:
+            datasetsSplitted.append(ds.take(tok+size).skip(tok)) 
+            tok+=size
+        return datasetsSplitted
+    
+
+    def createDatasets(self):
+        PATH = '{}{}/*.BMP'
+        path = PATH.format(os.getcwd(), self.path[1:])
+        dsf = tf.data.Dataset.list_files(path, shuffle=False)
+        if self.split:
+            dsf = self.splitDatasetByRatio(dsf, self.split)
+        for i, ds in enumerate(dsf):
+            if self.shuffle:
+                shuffleBS = len(dsf[i])
+            else:
+                shuffleBS = 1
+            dsf[i] = dsf[i].map(self.proccessPath)
+            dsf[i] = self.configureForPerformance(dsf[i], self.batchSize, shuffleBS)
+        return dsf
+                

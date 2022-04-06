@@ -22,42 +22,34 @@ class SOCOFingGender(SOCOfing):
         one_hot = className == self.classNames
         # Integer encode the label
         return tf.cast(one_hot, dtype=tf.int8, name=None)
-        
     
-    def createDatasets(self, splitsRatio=None, overSampling=False, shuffle=False):
+    
+    def createDatasets(self):
+        # create datasets to hold images path for male and female
+        PATH = '{}{}/*__{}_*.BMP'
+        pathFemale = PATH.format(os.getcwd(), self.path[1:], 'F')
+        pathMale = PATH.format(os.getcwd(), self.path[1:], 'M')
+        dsFemale = tf.data.Dataset.list_files(pathFemale, shuffle=False)
+        dsMale = tf.data.Dataset.list_files(pathMale, shuffle=False)
         
-        PATH = '{}{}/*__{}_*.{}'
-        pathF = PATH.format(os.getcwd(), self.path[1:], 'F',self.imgFormat)
-        pathM = PATH.format(os.getcwd(), self.path[1:], 'M',self.imgFormat)
-        dsF = tf.data.Dataset.list_files(pathF, shuffle=False)
-        dsM = tf.data.Dataset.list_files(pathM, shuffle=False)
-        nbSamples = min(len(dsF), len(dsM))
+        if self.split:
+            dsFemale = self.splitDatasetByRatio(dsFemale, self.split)
+            dsMale = self.splitDatasetByRatio(dsMale, self.split)
         
-        if overSampling:
-            nbRepeat = np.ceil(len(dsM)/len(dsF))
-            dsF = dsF.repeat(nbRepeat)
-            dsF = dsF.take(len(dsM))
-            nbSamples = len(dsF)
-        
-        if splitsRatio:
-            splitsAcc = self.samplesByRatio(nbSamples, splitsRatio)
-            tok = 0
-            datasets = []
-            for a in splitsAcc:
-                dsf = dsF.take(tok+a).skip(tok)
-                dsm = dsM.take(tok+a).skip(tok)
-                tok+=a
-                ds = dsf.concatenate(dsm)
-                if shuffle:
-                    ds = ds.shuffle(buffer_size=len(ds)*2, seed=self.seed)
-                ds = ds.map(self.proccessPath, num_parallel_calls=tf.data.AUTOTUNE)
-                datasets.append(ds)   
-        else:
-            ds = dsF.concatenate(dsM.take(nbSamples))
-            if shuffle:
-                ds = ds.shuffle(buffer_size=nbSamples*2, seed=self.seed)
-            datasets = ds.map(self.proccessPath, num_parallel_calls=tf.data.AUTOTUNE)
+        datasets = []
+        for dsf, dsm in zip(dsFemale, dsMale):
+            if self.sampling != SOCOfing.NOT_SAMPLING:
+                dsf, dsm = self.makeSampling(dsf, dsm)
+            dsb = dsf.concatenate(dsm)
+            if self.shuffle:
+                shuffleBS = len(dsb)
+            else:
+                shuffleBS =1
+            dsb = dsb.map(self.proccessPath)
+            dsb = self.configureForPerformance(dsb, self.batchSize, shuffleBS)
+            datasets.append(dsb)
         return datasets
+        
 
 
     
