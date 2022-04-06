@@ -1,11 +1,17 @@
 import os
 import tensorflow as tf
-from datasets.dataset import FPDataset 
+from .socofing import SOCOfing
 
-class SOCOFingSubjects(FPDataset):
 
-    def __init__(self, path='./data/socofing', subDS=['train', 'test', 'validation'], inputDim=(180, 180, 3), seed=9):
-        FPDataset.__init__(self, 'SOCOFingSubjects', path, subDS=subDS, imgFormat='BMP', inputDim=inputDim, seed=seed)
+
+class SOCOFingSubjects(SOCOfing):
+    
+    def __init__(self, **kargs):
+        SOCOfing.__init__(
+            self, 
+            name='SOCOfingSubjects', 
+            **kargs
+            )
     
     def getLabel(self, pathFile):
         # Convert the path to a list of path components

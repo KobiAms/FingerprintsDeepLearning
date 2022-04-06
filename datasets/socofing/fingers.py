@@ -1,23 +1,27 @@
 import os
 import tensorflow as tf
-from datasets.dataset import FPDataset
+from .socofing import SOCOfing
 
-class SOCOFingFingers(FPDataset):
+class SOCOFingFingers(SOCOfing):
 
-    def __init__(self, path='./data/socofing', subDS=['train', 'test', 'validation'], inputDim=(180, 180, 3), seed=9):
-        classNames=[
-            'Right_thumb',
-            'Right_index',
-            'Right_middle',
-            'Right_ring',
-            'Right_little',
-            'Left_thumb',
-            'Left_index',
-            'Left_middle',
-            'Left_ring',
-            'Left_little'
-        ]
-        FPDataset.__init__(self, 'SOCOFingFingers', path, subDS=subDS, imgFormat='BMP', inputDim=inputDim, classNames=classNames, seed=seed)
+    def __init__(self, **kargs):
+        SOCOfing.__init__(
+            self, 
+            name='SOCOfingFingers',
+            classNames=[
+                'Right_thumb',
+                'Right_index',
+                'Right_middle',
+                'Right_ring',
+                'Right_little',
+                'Left_thumb',
+                'Left_index',
+                'Left_middle',
+                'Left_ring',
+                'Left_little'
+            ], 
+            **kargs
+            )
     
     def getLabel(self, pathFile):
         # Convert the path to a list of path components
