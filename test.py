@@ -1,66 +1,48 @@
-from datasets.socofing import SOCOFingGender, SOCOFingFingers, SOCOFingSubjects
-import numpy as np
-from matplotlib import pyplot as plt
 import tensorflow as tf
+from tensorflow.keras import models
+from tensorflow.keras.optimizers import Adam
 
-print("Tensorflow version " + tf.__version__)
-
-
-genderClassNames=[
-            'F',
-            'M'
-            ]
-fingersClassNames=[
-            'R_thumb',
-            'R_index',
-            'R_middle',
-            'R_ring',
-            'R_little',
-            'L_thumb',
-            'L_index',
-            'L_middle',
-            'L_ring',
-            'L_little'
-            ]
+from datasets import SOCOFingGender
+from FPMLmodule.backbones import ResNet50
+from FPMLmodule.classifiers import ResNetClassifier
+from FPMLmodule.fpml import FPML 
 
 
-SOCOGender = SOCOFingGender()
-SOCOSubjects = SOCOFingSubjects()
-SOCOFingers = SOCOFingFingers()
+# Global Config
+seed=9
+img_dim = (96, 103, 3)
+img_height, img_width, img_channels = img_dim
+batch_size = 32
 
-genderDS = SOCOGender.createDatasets(splitsRatio=[0.7, 0.15, 0.15], shuffle=True, sampling=SOCOFingers.UNDER_SAMPLING)
-subjectDS = SOCOSubjects.createDatasets(splitsRatio=[0.7, 0.15, 0.15], shuffle=True)
-fingersDS = SOCOFingers.createDatasets(splitsRatio=[0.7, 0.15, 0.15], shuffle=True)
+# Dataset configuration
+AUTOTUNE = tf.data.AUTOTUNE
+split_ratio = [0.7, 0.15, 0.15]
+shuffle=True
+weights = "./weights/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5"
 
-dsNames = ['SOCOGender  ', 'SOCOSubjects', 'SOCOFingers ']
-splitNames = ['train', 'test ', 'valid']
-datasets = [genderDS, subjectDS, fingersDS]
+# Train config
+learning_rate = 0.001
 
-data = []
-for ds in datasets:
-    data.append([len(i) for i in ds])
+dsConfig = {
+    'batchSize': batch_size, 
+    'parallelTune': AUTOTUNE, 
+    'split': split_ratio, 
+    'inputDim': img_dim, 
+    'seed': seed, 
+    'shuffle': shuffle
+    }
 
-row_format ="{:>15}" * (len(dsNames) + 2)
-print(row_format.format("", *splitNames, 'total'))
-for name, row in zip(dsNames, data):
-    print(row_format.format(name, *row, np.sum(row)))
+SOCOGender = SOCOFingGender(**dict(dsConfig, sampling=SOCOFingGender.UNDER_SAMPLING))
 
-# def display_images_from_dataset(dataset, title='', numOfImages=10, cNames=None):
-#   plt.figure(figsize=(13,13))
-#   plt.suptitle(title)
-#   rows = int(np.ceil(numOfImages/10))
-#   for i, (image, label) in enumerate(dataset):
-#     plt.subplot(rows, 10, i+1)
-#     plt.axis('off')
-#     plt.imshow(image, cmap='gray')
-#     parseLabel = label.numpy()
-#     if cNames:
-#       parseLabel = cNames[tf.argmax(parseLabel)]
-#     plt.title(str(parseLabel), fontsize=16)
-#     if i==numOfImages-1:
-#       break
-#   plt.tight_layout()
-#   plt.subplots_adjust(wspace=0.1, hspace=0.1)
-#   plt.show()
+train_ds, test_ds, val_ds = SOCOGender.createDatasets()
 
-# display_images_from_dataset(dsF, 'Gender - Female')
+
+rn50 = ResNet50(img_dim, weights=weights, trainable=False)
+rnc = ResNetClassifier(2, "softmax")
+
+fpml = FPML(rn50, rnc, "", img_dim)
+
+model = fpml.createModel(Adam, learning_rate, 'binary_crossentropy', 'accuracy')
+
+model_history = model.fit(train_ds, validation_data=val_ds, epochs=10)
+

@@ -9,7 +9,7 @@ class SOCOfing(FPDataset):
         self,  
         path='./data/SOCOFing/Real', 
         name='SOCOFing', 
-        inputDim=(180, 180, 3), 
+        inputDim=(96, 103, 3), 
         **kargs
         ):
         FPDataset.__init__(self, name=name, path=path, inputDim=inputDim, **kargs)       
