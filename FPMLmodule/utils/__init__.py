@@ -1,3 +1,4 @@
 from .displayDsSamples import displayDatasetSamples as displayDsSamples
 from .displayDsSplit import displayDatasetSplit as displayDsSplit
 from .displayTrainProgress import displayTrainingGraph as displayTrainProgress
+from .displayConfusion import displayConfusion 

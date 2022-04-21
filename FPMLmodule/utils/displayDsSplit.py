@@ -10,7 +10,6 @@ def displayDatasetSplit(dataset, splitNames=['train', 'test ', 'validation']):
             tempLen+=len(labels)
         lens.append(tempLen)
     
-    print(lens)
     lens = np.array(lens)
     plt.figure(figsize=(7,7), facecolor='white')
     plt.pie(lens, labels = splitNames[:len(dataset)], autopct=lambda x: "{}".format(int(np.round(x*lens.sum()/100))))
