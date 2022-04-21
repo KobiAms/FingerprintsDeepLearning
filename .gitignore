@@ -5,3 +5,6 @@
 # Datasets
 data/
 weights/
+
+*.pyc
+quality_ref.ipynb
