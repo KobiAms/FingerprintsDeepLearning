@@ -7,4 +7,4 @@ data/
 weights/
 
 *.pyc
-quality_ref.ipynb
+temp/

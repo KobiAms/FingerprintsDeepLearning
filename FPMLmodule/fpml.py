@@ -8,7 +8,7 @@ DEFAULT_CONFIG = {}
 
 class FPML:
     
-    def __init__(self, backbone, classfier, config, inputDim, inputLayer=None) -> None:
+    def __init__(self, backbone, classfier, inputDim, config=None, inputLayer=None) -> None:
         
         if inputLayer and not issubclass(type(inputLayer), FPInputLayer):
             raise SystemError('inputLayer type error')
