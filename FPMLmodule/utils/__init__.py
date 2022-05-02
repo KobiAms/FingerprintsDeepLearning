@@ -4,3 +4,4 @@ from .displayTrainProgress import displayTrainingGraph as displayTrainProgress
 from .displayConfusion import displayConfusion 
 from .researchStudies import researchStudies
 from .getBestStudyFromHistory import getBestStudyFromHistories
+from .datasetDistribution import datasetDistribution
