@@ -24,12 +24,12 @@ class FPML:
         self.inputDim = inputDim
         self.model = None
     
-    def createModel(self, optimizer, learningRate, loss, metrics):
+    def create(self, optimizer, learningRate, loss, metrics):
         model = models.Sequential()
         if self.inputLayer:
-            model.add(self.inputLayer.createInputLayer())
-        model.add(self.backbone.createBackbone())
-        model.add(self.classfier.createClassifier())
+            model.add(self.inputLayer.create())
+        model.add(self.backbone.create())
+        model.add(self.classfier.create())
         model.build((None, *self.inputDim))
         model.compile(optimizer=optimizer(learning_rate=learningRate),loss=loss,metrics=[metrics])
         return model

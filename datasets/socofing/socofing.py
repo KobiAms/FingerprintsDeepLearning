@@ -45,7 +45,7 @@ class SOCOfing(FPDataset):
         return datasetsSplitted
     
 
-    def createDatasets(self):
+    def create(self):
         PATH = '{}{}/*.BMP'
         path = PATH.format(os.getcwd(), self.path[1:])
         dsf = tf.data.Dataset.list_files(path, shuffle=False)

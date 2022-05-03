@@ -9,7 +9,7 @@ class FPBackbone:
         self.weights = weights
         self.trainable = trainable
         
-    def createBackbone(self, pooling="max"):
+    def create(self, pooling="max"):
         backbone = self.backbone(include_top=False, input_shape=self.inputDim, pooling=pooling, weights=self.weights)
         if not self.trainable:
             for layer in backbone.layers:

@@ -34,7 +34,7 @@ dsConfig = {
 
 SOCOGender = SOCOFingGender(**dict(dsConfig, sampling=SOCOFingGender.UNDER_SAMPLING))
 
-train_ds, test_ds, val_ds = SOCOGender.createDatasets()
+train_ds, test_ds, val_ds = SOCOGender.create()
 
 
 rn50 = ResNet50(img_dim, weights=weights, trainable=False)
@@ -42,7 +42,7 @@ rnc = ResNetClassifier(2, "softmax")
 
 fpml = FPML(rn50, rnc, "", img_dim)
 
-model = fpml.createModel(Adam, learning_rate, 'binary_crossentropy', 'accuracy')
+model = fpml.create(Adam, learning_rate, 'binary_crossentropy', 'accuracy')
 
 model_history = model.fit(train_ds, validation_data=val_ds, epochs=10)
 

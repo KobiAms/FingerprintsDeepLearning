@@ -6,7 +6,7 @@ class AlexNetClassifier(FPClassifier):
     def __init__(self, nbClasses, activation) -> None:
         super().__init__("AlexNet-Classifier", nbClasses=nbClasses, activation=activation)
         
-    def createClassifier(self):
+    def create(self):
         model = models.Sequential(name=self.name)
         model.add(layers.Flatten())
         model.add(layers.Dense(4096, activation='relu'))

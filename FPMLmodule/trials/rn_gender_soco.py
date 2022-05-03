@@ -34,11 +34,11 @@ epochs_best = 100
 
 genderClassNames=['F','M']
 
-train_set, test_set, val_set = SOCOFingGender(**dict(dsConfig, sampling=SOCOFingGender.UNDER_SAMPLING)).createDatasets()
+train_set, test_set, val_set = SOCOFingGender(**dict(dsConfig, sampling=SOCOFingGender.UNDER_SAMPLING)).create()
 rn50 = ResNet50(img_dim, weights=weights, trainable=False)
 rnc = ResNetClassifier(2, "softmax")
 
-model = FPML(rn50, rnc, "", img_dim).createModel("adam", learning_rate, 'binary_crossentropy', 'accuracy')
+model = FPML(rn50, rnc, "", img_dim).create("adam", learning_rate, 'binary_crossentropy', 'accuracy')
 model_history = model.fit(train_set, validation_data=val_set, epochs=10)
 
 # {"model" : model, "history": model_history}

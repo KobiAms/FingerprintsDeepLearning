@@ -6,7 +6,7 @@ class DefaultClassifier(FPClassifier):
     def __init__(self, nbClasses, activation) -> None:
         super().__init__("Default-Classifier", nbClasses=nbClasses, activation=activation)
         
-    def createClassifier(self):
+    def create(self):
         model = models.Sequential(name=self.name)
         model.add(layers.Flatten())
         model.add(layers.Dense(512, activation='relu'))

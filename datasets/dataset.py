@@ -36,7 +36,7 @@ class FPDataset:
         ds = ds.prefetch(buffer_size=self.parallelTune)
         return ds
     
-    def createDatasets(self):
+    def create(self):
         raise NotImplementedError
     
     def makeSampling(self, dsBigger, dsSmaller):

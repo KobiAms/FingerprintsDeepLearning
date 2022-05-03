@@ -24,7 +24,7 @@ class SOCOFingGender(SOCOfing):
         return tf.cast(one_hot, dtype=tf.int8, name=None)
     
     
-    def createDatasets(self):
+    def create(self):
         # create datasets to hold images path for male and female
         PATH = '{}{}/*__{}_*.BMP'
         pathFemale = PATH.format(os.getcwd(), self.path[1:], 'F')

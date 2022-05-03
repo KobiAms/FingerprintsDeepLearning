@@ -23,7 +23,7 @@ dsConfig = {'batchSize': batch_size, 'parallelTune': AUTOTUNE, 'split': split_ra
 SOCOGender = SOCOFingGender(**dict(dsConfig, sampling=SOCOFingGender.UNDER_SAMPLING))
 
 
-# genderDS = SOCOGender.createDatasets()
+# genderDS = SOCOGender.create()
 
 print("Hello Fingerprints Module")
 

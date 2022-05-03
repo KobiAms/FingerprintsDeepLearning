@@ -5,5 +5,5 @@ class FPClassifier:
         self.nbClasses = nbClasses
         self.activation = activation
         
-    def createClassifier(self):
+    def create(self):
         raise NotImplementedError
