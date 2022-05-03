@@ -5,3 +5,5 @@ from .displayConfusion import displayConfusion
 from .researchStudies import researchStudies
 from .getBestStudyFromHistory import getBestStudyFromHistories
 from .datasetDistribution import datasetDistribution
+from .displayGroupedBar import displayGroupedBar
+from .displayStudiesProgress import displayStudiesProgress
