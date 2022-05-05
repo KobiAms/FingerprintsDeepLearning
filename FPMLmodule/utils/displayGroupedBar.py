@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 def displayGroupedBar(data, yLabel='Number of examples', title='Datasets Distribution', labels=None, classes=None):
     if not classes:
-        classes = [str(x) for x in data.shape[0]]
+        classes = np.arange(data.shape[0])    
     n = len(data)
     _X = np.arange(data.shape[1])
     width=0.8

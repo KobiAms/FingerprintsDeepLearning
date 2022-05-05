@@ -1,6 +1,7 @@
 from .displayDsSamples import displayDatasetSamples as displayDsSamples
 from .displayDsSplit import displayDatasetSplit as displayDsSplit
 from .displayTrainProgress import displayTrainingGraph as displayTrainProgress
+from .datasetUnionAndSetTest import datasetUASTest as datasetUnionAndSetTest
 from .displayConfusion import displayConfusion 
 from .researchStudies import researchStudies
 from .getBestStudyFromHistory import getBestStudyFromHistories
