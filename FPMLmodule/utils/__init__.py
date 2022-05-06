@@ -8,3 +8,4 @@ from .getBestStudyFromHistory import getBestStudyFromHistories
 from .datasetDistribution import datasetDistribution
 from .displayGroupedBar import displayGroupedBar
 from .displayStudiesProgress import displayStudiesProgress
+from .displayDatasetSplitInformation import displayDatasetSplitInformation
