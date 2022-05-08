@@ -6,10 +6,10 @@ def displayStudiesProgress(studies):
     plt.figure(figsize=(10, 4*nbStudies))
     for study, history in studies.items():
         
-        acc_history = history.history['accuracy']
-        val_acc_history = history.history['val_accuracy']
-        loss_history = history.history['loss']
-        val_loss_history = history.history['val_loss']
+        acc_history = history['history'].history['accuracy']
+        val_acc_history = history['history'].history['val_accuracy']
+        loss_history = history['history'].history['loss']
+        val_loss_history = history['history'].history['val_loss']
         
         plt.subplot(nbStudies, 2, cur)
         plt.plot(acc_history)

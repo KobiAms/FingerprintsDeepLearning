@@ -3,7 +3,7 @@ from .displayDsSplit import displayDatasetSplit as displayDsSplit
 from .datasetUnionAndSetTest import datasetUASTest as datasetUnionAndSetTest
 from .displayConfusion import displayConfusion 
 from .researchStudies import researchStudies
-from .getBestStudyFromHistory import getBestStudyFromHistories
+from .getBestStudyFromHistories import getBestStudyFromHistories
 from .datasetDistribution import datasetDistribution
 from .displayGroupedBar import displayGroupedBar
 from .displayStudiesProgress import displayStudiesProgress
