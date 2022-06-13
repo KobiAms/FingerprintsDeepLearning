@@ -3,12 +3,12 @@ from datasets.dataset import FPDataset
 import tensorflow as tf
 import numpy as np
 
-class NISTDB4(FPDataset):
+class NISTSDB4(FPDataset):
 
     def __init__(
         self,  
         path='./data/NISTSpecialDatabase4GrayScaleImagesofFIGS/sd04/png_txt/*', 
-        name='NISTDB4', 
+        name='NISTSDB4', 
         inputDim=(512, 512, 3), 
         **kargs
         ):

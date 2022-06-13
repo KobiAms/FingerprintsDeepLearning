@@ -1,13 +1,13 @@
 import tensorflow as tf
 import numpy as np
-from .nistdb4 import NISTDB4
+from .nistsdb4 import NISTSDB4
 
-class NISTDB4Type(NISTDB4):
+class NISTSDB4Type(NISTSDB4):
 
     def __init__(self, **kargs):
-        NISTDB4.__init__(
+        NISTSDB4.__init__(
             self, 
-            name='NISTDB4Type', 
+            name='NISTSDB4Type', 
             classNames=['L', 'W', 'R', 'T', 'A'], # L = left loop, W = whirl, R = right loop, T = tented arch, and A = arch
             **kargs
             )

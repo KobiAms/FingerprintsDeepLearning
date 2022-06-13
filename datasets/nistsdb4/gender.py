@@ -1,13 +1,13 @@
 import tensorflow as tf
 import numpy as np
-from .nistdb4 import NISTDB4
+from .nistsdb4 import NISTSDB4
 
-class NISTDB4Gender(NISTDB4):
+class NISTSDB4Gender(NISTSDB4):
 
     def __init__(self, **kargs):
-        NISTDB4.__init__(
+        NISTSDB4.__init__(
             self, 
-            name='NISTDB4Gender', 
+            name='NISTSDB4Gender', 
             classNames=['F', 'M'],
             **kargs
             )
