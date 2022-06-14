@@ -24,5 +24,6 @@ def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None, save
   plt.subplots_adjust(wspace=0.1, hspace=0.1)
   if savePath:
     plt.savefig(savePath+'dsSamples.png', bbox_inches='tight')
+    plt.close()
   else:   
     plt.show()

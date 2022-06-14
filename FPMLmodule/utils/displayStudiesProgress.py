@@ -37,5 +37,6 @@ def displayStudiesProgress(studiesHistories, savePath=None, fileName=None):
         else:
             plt.savefig(savePath+'studiesProgress.png', bbox_inches='tight')
             plt.suptitle('studiesProgress', size=16)
+        plt.close()
     else:   
         plt.show()

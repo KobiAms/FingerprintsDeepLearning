@@ -26,6 +26,7 @@ def displayConfusion(dataset, model, savePath=None):
     plt.tight_layout()
     if savePath:
         plt.savefig(savePath+'Confusion Matrix.png', bbox_inches='tight')
+        plt.close()
     else:   
         plt.show()
     return acc

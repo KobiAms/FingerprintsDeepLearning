@@ -22,4 +22,5 @@ def displayDatasetSplitInformation(datasets, classNames=None, savePath=None, lab
     displayGroupedBar(dist.T, labels=labels, classes=classNames)
     if savePath:
         plt.savefig(savePath+'DatasetSplitInformation.png', bbox_inches='tight')
+        plt.close()
     plt.show()
