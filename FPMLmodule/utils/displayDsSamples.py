@@ -1,8 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None):
-  plt.figure(figsize=(8,10))
+def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None, savePath=None):
+  plt.figure(figsize=(10,2))
   plt.suptitle(title)
   rows, cols = shape
   numOfImages = rows*cols
@@ -22,4 +22,7 @@ def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None):
       i+=1
   plt.tight_layout()
   plt.subplots_adjust(wspace=0.1, hspace=0.1)
-  plt.show()
+  if savePath:
+    plt.savefig(savePath+'dsSamples.png', bbox_inches='tight')
+  else:   
+    plt.show()

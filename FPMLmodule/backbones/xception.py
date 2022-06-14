@@ -3,9 +3,9 @@ import tensorflow as tf
 
 
 class Xception(FPBackbone):
-    def __init__(self, inputDim=(224, 224, 3), weights=None, trainable=True) -> None:
+    def __init__(self, inputDim=(224, 224, 3), weights=None, trainable=True, name="Xception-Backbone") -> None:
         FPBackbone.__init__(self,
-                            name="Xception-Backbone",
+                            name=name,
                             backbone=tf.keras.applications.xception.Xception,
                             inputDim=inputDim, weights=weights,
                             trainable=trainable

@@ -25,7 +25,7 @@ def encapsulationStudies(studies):
             explicitStudies[study] = copy.deepcopy(studies[study])
     return explicitStudies
 
-def researchStudies(train_set, val_set, studies, epochs=10, verbose=2):
+def researchStudies(train_set, val_set, studies, epochs=10, verbose=1):
     studies = encapsulationStudies(studies)
     histories = {}
     for study, config in studies.items():

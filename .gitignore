@@ -7,6 +7,7 @@ data/
 weights/
 
 *.pyc
+test.ipynb
 temp/
 Beta Result/
 Final Result/
