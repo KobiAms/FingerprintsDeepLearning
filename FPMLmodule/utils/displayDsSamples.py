@@ -13,9 +13,11 @@ def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None, save
       plt.subplot(rows, cols, i)
       plt.axis('off')
       plt.imshow(image, cmap='gray')
-      parseLabel = label
+      
       if classNames:
-        parseLabel = classNames[np.argmax(parseLabel)]
+        parseLabel = classNames[np.argmax(label)]
+      else:
+        parseLabel = label.numpy().decode('utf-8')
       plt.title(parseLabel, fontsize=16)
       if i==numOfImages:
         break
@@ -23,7 +25,7 @@ def displayDatasetSamples(dataset, title='', shape=(1, 1), classNames=None, save
   plt.tight_layout()
   plt.subplots_adjust(wspace=0.1, hspace=0.1)
   if savePath:
-    plt.savefig(savePath+'dsSamples.png', bbox_inches='tight')
+    plt.savefig(savePath+'DatasetSamples.png', bbox_inches='tight')
     plt.close()
   else:   
     plt.show()
