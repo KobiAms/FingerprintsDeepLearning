@@ -8,6 +8,7 @@ weights/
 
 *.pyc
 test.ipynb
+testOut/
 temp/
 Beta Result/
 Final Result/

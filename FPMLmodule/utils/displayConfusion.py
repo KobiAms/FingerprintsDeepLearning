@@ -4,7 +4,8 @@ from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 
 
-def displayConfusion(dataset, model):
+def displayConfusion(dataset, model, savePath=None):
+    plt.subplots()
     test_images = []
     y_test = []
     y_predict = []
@@ -22,4 +23,9 @@ def displayConfusion(dataset, model):
     sn.heatmap(cm ,annot = True, fmt='g')
     acc = (np.array(y_test) == np.array(y_predict)).sum()/len(y_test)
     plt.title("Test Set Accuracy:  "+str(round(acc*100, 2)))
+    plt.tight_layout()
+    if savePath:
+        plt.savefig(savePath+'Confusion Matrix.png', bbox_inches='tight')
+    else:   
+        plt.show()
     return acc
