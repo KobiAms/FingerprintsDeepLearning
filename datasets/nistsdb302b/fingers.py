@@ -1,14 +1,14 @@
-
 import os
 import tensorflow as tf
-from .nistsdb300a import NISTSDB300a
+from .nistsdb302b import NISTSDB302b
 
-class NISTSDB300aFingers(NISTSDB300a):
+
+class NISTSDB302bFingers(NISTSDB302b):
 
     def __init__(self, **kargs):
-        NISTSDB300a.__init__(
+        NISTSDB302b.__init__(
             self, 
-            name='NISTSDB300aFingers',
+            name='NISTSDB302bFingers',
             classNames=[
                 '01',
                 '02',
@@ -27,7 +27,7 @@ class NISTSDB300aFingers(NISTSDB300a):
     def getLabel(self, pathFile):
         # Convert the path to a list of path components
         fileName = tf.strings.split(pathFile, os.path.sep)[-1]
-        label = tf.strings.split(fileName, '_')[3]
+        label = tf.strings.split(fileName, '_')[-1]
         className = tf.strings.regex_replace(label, '.png', '')
         # The second to last is the class-directory
         one_hot = className == self.classNames
