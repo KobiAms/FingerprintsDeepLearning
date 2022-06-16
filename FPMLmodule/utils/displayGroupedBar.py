@@ -10,7 +10,7 @@ def displayGroupedBar(data, yLabel='Number of examples', title='Datasets Distrib
     for i in range(n):
         plt.bar(_X - width/2. + i/float(n)*width, data[i], width=width/float(n))
     if labels:  
-        plt.xticks(_X-width/(data.shape[0]*2), labels)
+        plt.xticks(_X-width/(data.shape[0]*2), labels[:len(_X)])
     plt.ylabel(yLabel)
     plt.title(title)
     plt.legend(classes)  

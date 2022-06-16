@@ -15,8 +15,8 @@ def encapsulationStudies(studies):
                         studyName = study+"_"
                         if(specificParameterKey == 'optimizer'):
                             studyName += parameter.__name__
-                        elif(specificParameterKey == 'backbone'):
-                            studyName = parameter.name+str(i)
+                        elif(specificParameterKey == 'backbone' or specificParameterKey == 'classifier'):
+                            studyName = parameter.name
                         else:
                             studyName = study+"_"+str(parameter)
                         explicitStudies[studyName] = copy.deepcopy(studies[study])

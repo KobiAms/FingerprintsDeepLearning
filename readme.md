@@ -12,7 +12,7 @@
 
 #### **Model Search** 
 
-we define the ````researchBestModel````, a method to search and compare between several different models and hyperparameters to choose the best one for dataset.
+we define the ````researchBestModel```` function, a method to search and compare between several different models and hyperparameters to choose the best one for dataset.
 
 ##### **Stages of** ````researchBestModel````:
 * ##### **1.** Backbone Transfer Learning mode comparison - (a) Pretraind wheights and Untrainable, (b) Pretraind wheights and Trainable, (c) Initialize wheight and Trainable.
