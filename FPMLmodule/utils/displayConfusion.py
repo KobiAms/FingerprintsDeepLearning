@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 
 
-def displayConfusion(dataset, model, savePath=None):
+def displayConfusion(dataset, model, savePath=None, show=True):
     plt.subplots()
     test_images = []
     y_test = []
@@ -26,7 +26,7 @@ def displayConfusion(dataset, model, savePath=None):
     plt.tight_layout()
     if savePath:
         plt.savefig(savePath+'Confusion Matrix.png', bbox_inches='tight')
-        plt.close()
-    else:   
+    if show:
         plt.show()
+    plt.close()
     return acc

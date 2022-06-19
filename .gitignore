@@ -8,7 +8,10 @@ weights/
 
 *.pyc
 test.ipynb
+test2.ipynb
 out/
 temp/
 Beta Result/
 Final Result/
+gui/
+flask/

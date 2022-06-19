@@ -25,15 +25,16 @@ def encapsulationStudies(studies):
             explicitStudies[study] = copy.deepcopy(studies[study])
     return explicitStudies
 
-def researchStudies(train_set, val_set, studies, epochs=10, verbose=1):
+def researchStudies(train_set, val_set, studies, epochs=10, verbose=1, path=None):
     studies = encapsulationStudies(studies)
     histories = {}
     for study, config in studies.items():
         fpml = FPML(**config["architecture"])
-        model = fpml.create(**config["hyperparameters"])
-        model_history = model.fit(train_set, validation_data=val_set, epochs=epochs, verbose=verbose)
+        fpml.create(**config["hyperparameters"])
+        model_history = fpml.fit(train_set, validation_data=val_set, epochs=epochs, verbose=verbose)
         histories[study] = {
             "history":model_history,
+            "model": fpml,
             "config": config
             }
     return histories

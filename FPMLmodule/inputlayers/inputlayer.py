@@ -1,12 +1,10 @@
 
 
-
 class FPInputLayer:
-    
-    def __init__(self, name, inputDim, outputDim):
+    def __init__(self, name, activation) -> None:
         self.name = name
-        self.inputDim = inputDim
-        self.outputDim = outputDim
+        self.activation = activation
         
-    def getName(self):
-        return self.name 
+    def create(self):
+        raise NotImplementedError
+    

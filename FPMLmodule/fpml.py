@@ -23,6 +23,7 @@ class FPML:
         self.config = config
         self.inputDim = inputDim
         self.model = None
+        self.history = None
     
     def create(self, optimizer, learningRate, loss, metrics):
         model = models.Sequential()
@@ -32,10 +33,36 @@ class FPML:
         model.add(self.classifier.create())
         model.build((None, *self.inputDim))
         model.compile(optimizer=optimizer(learning_rate=learningRate),loss=loss,metrics=[metrics])
+        self.model = model
         return model
+    
+    def getModel(self):
+        if not self.model:
+            print('model not created. please call create()')
+            return None
+        return self.model
+    
+    def getHistory(self):
+        if not self.history:
+            print('model not trained. please call fit()')
+            return None
+        return self.history
         
-    # def train(self, trainSet, valSet, epochs):
-    #     history = self.model.fit(trainSet, validation_data=valSet, epochs=epochs)
-    #     return history
+    def fit(self, trainSet, validation_data, epochs, verbose):
+        if not self.model:
+            print('model not created. please call create()')
+            return None
+        history = self.model.fit(trainSet, validation_data=validation_data, epochs=epochs, verbose=verbose)
+        if self.history:
+            self.history = [*self.history, history]
+        else:
+            self.history = [history]
+        return history
+    
+    def save(self, path):
+        if not self.model:
+            print('model not created. please call create()')
+        else:
+            self.model.save(path)
     
      
