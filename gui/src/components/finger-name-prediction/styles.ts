@@ -36,6 +36,8 @@ export namespace styles {
       padding: 10px;
       background-color: #FDFDFD;
       z-index: 0;
+      display: flex;
+      flex-direction: column;
     `
 
 
