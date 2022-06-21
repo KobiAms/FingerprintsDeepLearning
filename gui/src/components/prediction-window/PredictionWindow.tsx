@@ -9,11 +9,11 @@ interface Props {
     icons: IconType[];
     data: any[];
     flexRatio: number;
+    labels: string[];
+    labelsIcons?: IconType[];
 }
 
-export const FingerNamePrediction = (props: Props) => {
-
-
+export const PredictionWindow = (props: Props) => {
 
 
 
@@ -27,8 +27,6 @@ export const FingerNamePrediction = (props: Props) => {
                             return <Icon key={i} color={'rgb(115, 115, 115)'}/>
                         })
                     }
-                    {/*<IoHandLeft color={'rgb(115, 115, 115)'}/>*/}
-                    {/*<IoHandRight color={'rgb(115, 115, 115)'}/>*/}
                 </div>
                 <div>
                     {props.title}
@@ -36,11 +34,16 @@ export const FingerNamePrediction = (props: Props) => {
             </styles.Header>
             <styles.Content>
                 {
-                    props.data
-                        .sort((a, b) => b.percentage-a.percentage)
-                        .map((item, index) => {
+                    props.data?.map((a, i) => ({a: a, i:i}))
+                        .sort((a, b) => b.a-a.a)
+                        .map(({a, i}, index) => {
                         return(
-                            <ResultItem {...item}/>
+                            <ResultItem
+                                top={index == 0}
+                                key={index}
+                                icon={props.labelsIcons && props.labelsIcons[i]}
+                                title={props.labels[i]}
+                                percentage={Math.floor(a*100)}/>
                         )
                     })
                 }
@@ -50,4 +53,4 @@ export const FingerNamePrediction = (props: Props) => {
     )
 }
 
-export default FingerNamePrediction
+export default PredictionWindow

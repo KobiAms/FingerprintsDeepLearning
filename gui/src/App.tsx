@@ -1,8 +1,8 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
 import Axios from "axios";
-import axios from "axios"
-import {useDropzone} from 'react-dropzone'
+import {useToast} from '@chakra-ui/react'
+import {ChakraProvider} from '@chakra-ui/react'
 import ImagesZone from "./components/images-zone/ImagesZone";
 import PredictionsZone from "./components/predictions-zone/PredictionsZone";
 
@@ -10,26 +10,16 @@ const apiURL = 'http://10.0.0.10:5000'
 
 function App() {
 
+    const [mainFile, setMainFile] = useState<File | undefined>()
+    const [samePersonFile, setSamePersonFile] = useState<File | undefined>()
+    const [data, setData] = useState<{}>({})
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
 
-    const [file, setFile] = useState<File | undefined>()
 
+    const getPredictionsFromServer = (imagesReady: FormData) => {
+        setLoading(true)
 
-    const sendImages = () => {
-
-        // const imagesReady = new FormData()
-        // files?.forEach(file => {
-        //     imagesReady.append(file.name, file)
-        // })
-        // console.log(Array.from(imagesReady.entries(), ([key, prop]) => (
-        //     {[key]: {
-        //             "ContentLength":
-        //                 typeof prop === "string"
-        //                     ? prop.length
-        //                     : prop.size
-        //         }
-        //     }))
-        // )
-        //
         // Axios({
         //     url: apiURL+'/api/predictImages',
         //     method: 'post',
@@ -37,21 +27,63 @@ function App() {
         //     data: imagesReady,
         //     headers: {'Content-Type': 'multipart/form-data'}
         // }).then(res => {
-        //     console.log(res.data)
-        // }).catch(err => {
-        //     console.log(err)
+        //     // setData(res.data)
+        //     setLoading(false)
+        // }).catch((err) => {
+        //     toast({
+        //         title: 'אופס... משהו השתבש',
+        //         description: err,
+        //         status: 'error',
+        //         duration: 5000,
+        //         isClosable: true,
+        //     })
+        //     setLoading(false)
         // })
+        if (Math.random() > 0.5) {
 
+            toast({
+                title: 'הצחלה',
+                description: 'Success',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+            setLoading(false)
+        } else {
+            toast({
+                title: 'אופס... משהו השתבש',
+                description: 'err',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+            setLoading(false)
+        }
     }
+
+    useEffect(() => {
+        if (mainFile && samePersonFile) {
+            const imagesReady = new FormData()
+            imagesReady.append('MainFile', mainFile)
+            imagesReady.append('SamePersonFile', samePersonFile)
+            getPredictionsFromServer(imagesReady)
+        } else if (mainFile) {
+            const imagesReady = new FormData()
+            imagesReady.append('MainFile', mainFile)
+            getPredictionsFromServer(imagesReady)
+        }
+    }, [mainFile, samePersonFile])
 
 
     return (
-        <styles.App>
-            <styles.Wrapper>
-                <ImagesZone setFile={setFile} file={file}/>
-                <PredictionsZone/>
-            </styles.Wrapper>
-        </styles.App>
+        <ChakraProvider>
+            <styles.App>
+                <styles.Wrapper>
+                    <ImagesZone loading={loading} setFile={setMainFile} file={mainFile}/>
+                    <PredictionsZone setFile={setSamePersonFile} file={samePersonFile} data={data}/>
+                </styles.Wrapper>
+            </styles.App>
+        </ChakraProvider>
     );
 }
 

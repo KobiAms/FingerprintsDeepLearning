@@ -11,6 +11,9 @@ test.ipynb
 test2.ipynb
 out/
 temp/
+flask/static/
+flask/app2.py
 Beta Result/
 Final Result/
 flask/models/
+final_result_history/

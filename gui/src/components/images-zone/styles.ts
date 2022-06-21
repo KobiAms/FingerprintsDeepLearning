@@ -31,6 +31,7 @@ export namespace styles {
       font-size: ${props => props.size ? props.size : '20px'};
       width: max-content;
     `
+
     export const FakeButton = styled.div<{size?: string}>`
       background-color: white;
       font-size: ${props => props.size ? props.size : '20px'};

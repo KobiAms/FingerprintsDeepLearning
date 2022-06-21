@@ -1,11 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
 import {useDropzone} from "react-dropzone";
-import { IoFingerPrint } from 'react-icons/io5';
+import {IoFingerPrint} from 'react-icons/io5';
+import {CircularProgress} from '@chakra-ui/react';
 
 interface Props {
-    file: File | undefined
-    setFile: (prev:any) => void
+    file: File | undefined;
+    setFile: (prev: any) => void;
+    loading: boolean;
 }
 
 export const ImagesZone = (props: Props) => {
@@ -13,25 +15,24 @@ export const ImagesZone = (props: Props) => {
     const {file, setFile} = props
     const [imageUri, setImageUri] = useState<string>('')
 
-    const onDrop = useCallback((acceptedFiles:any) => {
+    const onDrop = useCallback((acceptedFiles: any) => {
         setFile(acceptedFiles[0])
     }, [])
 
     const {getRootProps, getInputProps} = useDropzone({onDrop})
 
     useEffect(() => {
-        if(file){
+        if (file) {
             let reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function () {
                 setImageUri(reader.result as string);
-
             };
             reader.readAsDataURL(file as File)
         }
     }, [file])
 
 
-    return(
+    return (
         <styles.Wrapper>
             <styles.Dropzone {...getRootProps()}>
                 <input {...getInputProps()} />
@@ -39,24 +40,36 @@ export const ImagesZone = (props: Props) => {
                     file ?
                         <styles.FingerPrintImage src={imageUri}/>
                         :
-                <>
-                    <styles.Text>
-                        גרור דגימות לכאן
-                    </styles.Text>
-                    <div style={{height: '20px'}}/>
-                    <styles.Text size={'16px'}>
-                        או
-                    </styles.Text>
-                    <div style={{height: '20px'}}/>
-                    <styles.FakeButton>
-                        העלה תמונות מהמחשב
-                    </styles.FakeButton>
-                </>
+                        <>
+                            <styles.Text>
+                                גרור דגימות לכאן
+                            </styles.Text>
+                            <div style={{height: '20px'}}/>
+                            <styles.Text size={'16px'}>
+                                או
+                            </styles.Text>
+                            <div style={{height: '20px'}}/>
+                            <styles.FakeButton>
+                                העלה תמונות מהמחשב
+                            </styles.FakeButton>
+                        </>
                 }
             </styles.Dropzone>
-            <IoFingerPrint size={'40px'} color={'white'}/>
+            {
+                file &&
+                <styles.Text size={'12px'}>
+                    {file.name}
+                </styles.Text>
+            }
+            {
+                props.loading ?
+                    <CircularProgress isIndeterminate color='blue.600'/>
+                    :
+                    <IoFingerPrint size={'40px'} color={'white'}/>
+
+            }
             <styles.Text size={'12px'}>
-                Developed by Kobi Amsellem  and Zohar Kedem
+                Developed by Kobi Amsellem and Zohar Kedem
             </styles.Text>
         </styles.Wrapper>
     )
@@ -65,3 +78,5 @@ export const ImagesZone = (props: Props) => {
 
 
 export default ImagesZone
+
+

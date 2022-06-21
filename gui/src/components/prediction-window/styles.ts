@@ -6,7 +6,7 @@ export namespace styles {
     export const Wrapper = styled.div<{flexRatio: number}>`
       flex: ${props => props.flexRatio};
       background-color: transparent;
-      padding: 20px;
+      padding: 10px;
       display: flex;
       overflow: scroll;
     `
@@ -15,7 +15,7 @@ export namespace styles {
       background-color: #FDFDFD;
       display: flex;
       flex-direction: column;
-      box-shadow: 0px 3px 6px #00000017;
+      box-shadow: 0px 3px 6px #00000030;
       border-radius: 10px;
       overflow: scroll;
     `
