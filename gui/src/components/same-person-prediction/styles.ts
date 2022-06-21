@@ -60,6 +60,15 @@ export namespace styles {
       width: max-content;
     `
 
+    export const FingerPrintImageWrapper = styled.div`
+      display: flex;
+      width: 100%;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+    `
+
     export const FingerPrintImage = styled.img`
       border-radius: 10px;
       height: 150px;

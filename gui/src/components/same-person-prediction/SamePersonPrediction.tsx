@@ -2,10 +2,12 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
 import {GoLink} from "react-icons/go";
 import {useDropzone} from "react-dropzone";
+import {CircularProgress, CircularProgressLabel} from "@chakra-ui/react";
 
 interface Props {
     file: File | undefined
-    setFile: (prev:any) => void
+    setFile: (prev: any) => void
+    data: any[];
 }
 
 export const SamePersonPrediction = (props: Props) => {
@@ -13,16 +15,28 @@ export const SamePersonPrediction = (props: Props) => {
     const {file, setFile} = props
     const [imageUri, setImageUri] = useState<string>('')
 
-    const onDrop = useCallback((acceptedFiles:any) => {
+    const colors = [
+        'red.600',
+        'red.500',
+        'red.400',
+        'yellow.600',
+        'yellow.500',
+        'yellow.400',
+        'green.300',
+        'green.400',
+        'green.500',
+        'green.600']
+
+    const onDrop = useCallback((acceptedFiles: any) => {
         setFile(acceptedFiles[0])
     }, [])
 
     const {getRootProps, getInputProps} = useDropzone({onDrop})
 
     useEffect(() => {
-        if(file){
+        if (file) {
             let reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function () {
                 setImageUri(reader.result as string);
             };
             reader.readAsDataURL(file as File)
@@ -30,8 +44,7 @@ export const SamePersonPrediction = (props: Props) => {
     }, [file])
 
 
-
-    return(
+    return (
         <styles.Wrapper>
             <styles.PredictionWindow>
                 <styles.Header>
@@ -47,7 +60,17 @@ export const SamePersonPrediction = (props: Props) => {
                         <input {...getInputProps()} />
                         {
                             file ?
-                                <styles.FingerPrintImage src={imageUri}/>
+                                <styles.FingerPrintImageWrapper>
+                                    <div style={{opacity: '0'}}>
+                                        <CircularProgress value={15} color={colors[Math.floor(15 / 10)]}>
+                                            <CircularProgressLabel>{15}%</CircularProgressLabel>
+                                        </CircularProgress>
+                                    </div>
+                                    <styles.FingerPrintImage src={imageUri}/>
+                                    <CircularProgress value={15} color={colors[Math.floor(15 / 10)]}>
+                                        <CircularProgressLabel>{15}%</CircularProgressLabel>
+                                    </CircularProgress>
+                                </styles.FingerPrintImageWrapper>
                                 :
                                 <>
                                     <styles.Text>

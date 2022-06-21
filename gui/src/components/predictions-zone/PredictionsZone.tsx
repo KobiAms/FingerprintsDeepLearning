@@ -21,7 +21,7 @@ export const PredictionsZone = (props: Props) => {
         <styles.Wrapper>
             <styles.FingerSameSection>
                 <PredictionWindow flexRatio={4} data={props.data.fingerName} title={'אצבע'} icons={[IoHandLeft, IoHandRight]} labels={FingerNames}/>
-                <SamePersonPrediction file={props.file} setFile={props.setFile}/>
+                <SamePersonPrediction file={props.file} setFile={props.setFile} data={props.data.same}/>
             </styles.FingerSameSection>
             <styles.GenderShapeQualitySection>
                 <PredictionWindow flexRatio={1} data={props.data.gender} title={'מגדר'} icons={[BsGenderAmbiguous]} labels={Genders} labelsIcons={GenderIcons}/>

@@ -11,3 +11,4 @@ from .displayDatasetSplitInformation import displayDatasetSplitInformation
 from .saveStudyHistory import saveStudyHistory
 from .datasetAnalysisAndDisplay import datasetAnalysisAndDisplay
 from .prepareDatasetsForStudy import prepareDatasetsForStudy
+from .saveTopModelsFullHistory import saveTopModelsFullHistory

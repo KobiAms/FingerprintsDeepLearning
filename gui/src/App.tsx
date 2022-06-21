@@ -6,7 +6,7 @@ import {ChakraProvider} from '@chakra-ui/react'
 import ImagesZone from "./components/images-zone/ImagesZone";
 import PredictionsZone from "./components/predictions-zone/PredictionsZone";
 
-const apiURL = 'http://10.0.0.10:5000'
+const apiURL = 'http://127.0.0.1:5000'
 
 function App() {
 
@@ -19,46 +19,39 @@ function App() {
 
     const getPredictionsFromServer = (imagesReady: FormData) => {
         setLoading(true)
-
-        // Axios({
-        //     url: apiURL+'/api/predictImages',
-        //     method: 'post',
-        //     withCredentials: true,
-        //     data: imagesReady,
-        //     headers: {'Content-Type': 'multipart/form-data'}
-        // }).then(res => {
-        //     // setData(res.data)
-        //     setLoading(false)
-        // }).catch((err) => {
-        //     toast({
-        //         title: 'אופס... משהו השתבש',
-        //         description: err,
-        //         status: 'error',
-        //         duration: 5000,
-        //         isClosable: true,
-        //     })
-        //     setLoading(false)
+        // setData({
+        //     gender: [0.75, 0.25],
+        //     fingerName: [0.69, 0.21, 0.5, 0.4, 0.1, 0, 0, 0, 0, 0],
+        //     shape: [0.69, 0.21, 0.5, 0.4, 0.1],
+        //     quality: [0.77, 0.13, 0.5, 0.4, 0.1],
+        //     same: [0.75, 0.25],
         // })
-        if (Math.random() > 0.5) {
-
+        Axios({
+            url: apiURL+'/api/predictImages',
+            method: 'post',
+            withCredentials: true,
+            data: imagesReady,
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then(res => {
+            setData(res.data)
             toast({
-                title: 'הצחלה',
+                title: 'הצלחה',
                 description: 'Success',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
             })
             setLoading(false)
-        } else {
+        }).catch((err) => {
             toast({
                 title: 'אופס... משהו השתבש',
-                description: 'err',
+                description: err,
                 status: 'error',
                 duration: 5000,
                 isClosable: true,
             })
             setLoading(false)
-        }
+        })
     }
 
     useEffect(() => {

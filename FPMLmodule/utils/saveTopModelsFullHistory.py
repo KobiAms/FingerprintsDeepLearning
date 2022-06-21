@@ -2,8 +2,6 @@ import csv
 from pathlib import Path
 from matplotlib import pyplot as plt
 
-# Path('./final_result_full_history/').mkdir(parents=True, exist_ok=True)
-# for model in allBestModels:
 def saveTopModelsFullHistory(bestModels, path):
     
     for key, val in bestModels.items():
