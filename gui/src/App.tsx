@@ -7,6 +7,7 @@ import ImagesZone from "./components/images-zone/ImagesZone";
 import PredictionsZone from "./components/predictions-zone/PredictionsZone";
 
 const apiURL = 'http://127.0.0.1:5000'
+// const apiURL = ''
 
 function App() {
 
@@ -19,13 +20,6 @@ function App() {
 
     const getPredictionsFromServer = (imagesReady: FormData) => {
         setLoading(true)
-        // setData({
-        //     gender: [0.75, 0.25],
-        //     fingerName: [0.69, 0.21, 0.5, 0.4, 0.1, 0, 0, 0, 0, 0],
-        //     shape: [0.69, 0.21, 0.5, 0.4, 0.1],
-        //     quality: [0.77, 0.13, 0.5, 0.4, 0.1],
-        //     same: [0.75, 0.25],
-        // })
         Axios({
             url: apiURL+'/api/predictImages',
             method: 'post',

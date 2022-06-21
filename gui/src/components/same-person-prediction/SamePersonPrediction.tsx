@@ -67,8 +67,8 @@ export const SamePersonPrediction = (props: Props) => {
                                         </CircularProgress>
                                     </div>
                                     <styles.FingerPrintImage src={imageUri}/>
-                                    <CircularProgress value={15} color={colors[Math.floor(15 / 10)]}>
-                                        <CircularProgressLabel>{15}%</CircularProgressLabel>
+                                    <CircularProgress value={props.data && Math.floor(props.data[0] * 100)} color={colors[Math.floor(props.data && Math.floor(props.data[0] * 100) / 10)]}>
+                                        <CircularProgressLabel>{props.data && Math.floor(props.data[0] * 100)}%</CircularProgressLabel>
                                     </CircularProgress>
                                 </styles.FingerPrintImageWrapper>
                                 :
