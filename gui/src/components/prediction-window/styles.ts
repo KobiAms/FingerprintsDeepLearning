@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 export namespace styles {
 
-    export const Wrapper = styled.div`
-      flex: 1;
+    export const Wrapper = styled.div<{flexRatio: number}>`
+      flex: ${props => props.flexRatio};
       background-color: transparent;
       padding: 20px;
       display: flex;
+      overflow: scroll;
     `
     export const PredictionWindow = styled.div`
       flex: 1;
@@ -16,7 +17,7 @@ export namespace styles {
       flex-direction: column;
       box-shadow: 0px 3px 6px #00000017;
       border-radius: 10px;
-      overflow: hidden;
+      overflow: scroll;
     `
 
     export const Header = styled.div`
@@ -36,7 +37,12 @@ export namespace styles {
       padding: 10px;
       background-color: #FDFDFD;
       z-index: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: scroll;
     `
+
+
 }
 
 export default styles
