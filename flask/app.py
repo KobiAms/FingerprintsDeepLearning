@@ -25,7 +25,6 @@ shapeModel = tf.keras.models.load_model('./models/Shape')
 qualityModel = tf.keras.models.load_model('./models/Quality')
 
 
-
 app = Flask(__name__, static_folder=os.path.abspath('./static'), static_url_path="")
 
 cors = CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000"]}}, supports_credentials=True)
@@ -47,24 +46,55 @@ def predictImages():
     print("/api/predictImages", request.headers.get('Content-Length', 0))
     
     if mainImage:
-        npImg = np.stack((Image.open(mainImage),)*3, axis=-1)
+        # read file into np array
+        npImg = np.array(Image.open(mainImage))
+        # fix channel mismatch
+        if len(npImg.shape) == 2:
+            npImg = np.stack((npImg,)*3, axis=-1)
+        elif len(npImg.shape) == 3 and npImg.shape[2] == 4:
+            npImg = npImg[:, :, :3]
+        
+        # resize img to model input layer dimention
+        # cast into uint 8
+        
+        # fingerName, gender, samePerson, shape model
         resized224 = tf.image.resize(npImg, (224, 224))
+        cast224 = tf.cast(resized224, dtype=tf.uint8)
+        ready224 = np.array([cast224])
+        
+        # quality model
         resized180 = tf.image.resize(npImg, (180, 180))
-        ready224 = np.array([tf.cast(resized224, dtype=tf.uint8)])
-        ready180 = np.array([tf.cast(resized180, dtype=tf.uint8)])
+        cast180 = tf.cast(resized180, dtype=tf.uint8)
+        ready180 = np.array([cast180])
+        
+        # predict image labels
         response_data['gender'] = genderModel.predict(ready224).tolist()[0]
         response_data['shape'] = shapeModel.predict(ready224).tolist()[0]
         response_data['fingerName'] = fingerNameModel.predict(ready224).tolist()[0]
         response_data['quality'] = qualityModel.predict(ready180).tolist()[0]
-    if mainImage and samePersonImage:
-        npMainImage = np.stack((Image.open(mainImage),)*3, axis=-1)
-        npSamePerson = np.stack((Image.open(samePersonImage),)*3, axis=-1)
-        mainResized = tf.image.resize(npMainImage, (224, 224))
-        sameResized = tf.image.resize(npSamePerson, (224, 224))
-        stiched = tf.slice(tf.concat([mainResized, sameResized], axis=1), [0, 0, 0], [224, 224*2, 3])
-        resized = tf.image.resize(stiched, (224, 224))
-        ready = np.array([tf.cast(resized, dtype=tf.uint8)])
-        response_data['same'] = genderModel.predict(ready).tolist()[0]
+        if samePersonImage:
+            # read file into np array
+            npSamePerson = np.array(Image.open(samePersonImage))
+            
+            # fix channel mismatch
+            if len(npSamePerson.shape) == 2:
+                npSamePerson = np.stack((npSamePerson,)*3, axis=-1)
+            elif len(npSamePerson.shape) == 3 and npSamePerson.shape[2] == 4:
+                npSamePerson = npSamePerson[:, :, :3]
+            
+            # stiching ing to main img 
+            sameResized = tf.image.resize(npSamePerson, (224, 224)) 
+            sameCast = tf.cast(sameResized, dtype=tf.uint8)
+            sameStiched = tf.slice(tf.concat([cast224, sameCast], axis=1), [0, 0, 0], [224, 448, 3])
+            
+            # resize to model input layer dim
+            sameStichedResized = tf.image.resize(sameStiched, (224, 224))
+            sameStichedCast = tf.cast(sameStichedResized, dtype=tf.uint8)
+            sameStichedReady = np.array([sameStichedCast])
+            
+            # print(sameStichedReady.shape)
+            # predict same person prob
+            response_data['same'] = genderModel.predict(sameStichedReady).tolist()[0]
 
         
     response = make_response(json.dumps(response_data))

@@ -9,7 +9,7 @@ weights/
 *.pyc
 test.ipynb
 test2.ipynb
-out/
+out*/
 temp/
 flask/static/
 flask/app2.py

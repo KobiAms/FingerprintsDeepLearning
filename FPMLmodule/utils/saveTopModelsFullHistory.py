@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 from matplotlib import pyplot as plt
+import numpy as np
 
 def saveTopModelsFullHistory(bestModels, path):
     
