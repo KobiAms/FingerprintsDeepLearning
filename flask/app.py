@@ -20,6 +20,7 @@ except:
     pass
 
 genderModel = tf.keras.models.load_model('./models/Gender')
+samePersonModel = tf.keras.models.load_model('./models/SamePerson')
 fingerNameModel = tf.keras.models.load_model('./models/FingerName')
 shapeModel = tf.keras.models.load_model('./models/Shape')
 qualityModel = tf.keras.models.load_model('./models/Quality')
@@ -32,8 +33,6 @@ cors = CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http:/
 @app.route("/", methods=["GET"])
 def get_example():
     """GET in server"""
-    # response = jsonify(message="Simple server is running")
-    print("/index")
     return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/api/predictImages", methods=["POST"])
@@ -43,7 +42,6 @@ def predictImages():
     
     mainImage = request.files.get('MainFile', None)
     samePersonImage = request.files.get('SamePersonFile', None)
-    print("/api/predictImages", request.headers.get('Content-Length', 0))
     
     if mainImage:
         # read file into np array
@@ -92,9 +90,11 @@ def predictImages():
             sameStichedCast = tf.cast(sameStichedResized, dtype=tf.uint8)
             sameStichedReady = np.array([sameStichedCast])
             
-            # print(sameStichedReady.shape)
             # predict same person prob
-            response_data['same'] = genderModel.predict(sameStichedReady).tolist()[0]
+            
+            sameRes = samePersonModel.predict(sameStichedReady).tolist()[0]
+            sameRes.reverse()
+            response_data['same'] = sameRes
 
         
     response = make_response(json.dumps(response_data))

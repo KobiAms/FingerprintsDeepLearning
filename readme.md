@@ -52,3 +52,28 @@ we define the ````researchBestModel```` function, a method to search and compare
     * Loss Functions: *categorical-crossentropy, mean-squared-error, categorical-hinge*
     * Learning Rates: *0.1, 0.01, 0.001, 0.0001, 0.00001*
     * Backbones: *MobileNetV2, ResNet50, EfficientNetB2, InceptionV3, Xception*
+
+### **3. Fingerprint Type** 
+* #### **Datasets:**
+    * ***NIST Special Database 4***
+
+* #### **Hyperparameters**
+    * Optimizers: *Adam, Nadam, RMSprop*
+    * Loss Functions: *categorical-crossentropy, mean-squared-error, categorical-hinge*
+    * Learning Rates: *0.1, 0.01, 0.001, 0.0001, 0.00001*
+    * Backbones: *MobileNetV2, ResNet50, EfficientNetB2, InceptionV3, Xception*
+
+
+### **4. Same Person Study** 
+* #### **Datasets**
+    * ***SOCOFing***
+    * ***NIST Special Database 300a Roll***
+    * ***NIST Special Database 300b - All Scanners***
+
+* #### **Hyperparameters**
+    * Optimizers: *Adam, Nadam, RMSprop*
+    * Loss Functions: *binary-crossentropy, binary-focal-crossentropy, hinge*
+    * Learning Rates: *0.1, 0.01, 0.001, 0.0001, 0.00001*
+    * Backbones: *MobileNetV2, ResNet50, EfficientNetB2, InceptionV3, Xception*
+<br />
+
